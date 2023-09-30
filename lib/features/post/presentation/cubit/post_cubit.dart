@@ -9,6 +9,7 @@ abstract class PostCubit extends Cubit<PostState> {
   PostCubit(super.state);
 
   Future<void> getPosts();
+  Future<void> createPost(PostModel post);
 }
 
 class PostCubitImpl extends PostCubit {
@@ -22,6 +23,17 @@ class PostCubitImpl extends PostCubit {
       emit(PostLoading());
       final posts = await repository.getPosts();
       emit(PostLoaded(posts: posts));
+    } catch (e) {
+      emit(PostError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> createPost(PostModel post) async {
+    try {
+      emit(PostLoading());
+      await repository.createPost(post);
+      emit(PostCreated());
     } catch (e) {
       emit(PostError(message: e.toString()));
     }

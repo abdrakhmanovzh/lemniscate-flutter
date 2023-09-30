@@ -20,6 +20,8 @@ class PostLoaded extends PostState {
   List<Object?> get props => [posts];
 }
 
+class PostCreated extends PostState {}
+
 class PostError extends PostState {
   final String message;
 

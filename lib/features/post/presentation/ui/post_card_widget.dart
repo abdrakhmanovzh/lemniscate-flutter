@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lemniscate_flutter/core/utils/app_colors.dart';
 import 'package:lemniscate_flutter/features/post/domain/entities/post_model.dart';
 import 'package:lemniscate_flutter/features/post/presentation/utils/get_formatted_date.dart';
+import 'package:lemniscate_flutter/features/post/presentation/utils/get_formatted_name.dart';
 import 'package:lemniscate_flutter/features/post/presentation/utils/get_post_image.dart';
 import 'package:lemniscate_flutter/features/user/domain/entities/user_model.dart';
 import 'package:lemniscate_flutter/features/user/presentation/utils/get_user_avatar.dart';
@@ -39,7 +40,7 @@ class PostCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    author.name,
+                    GetFormattedName.getFormattedName(author.name),
                     style: const TextStyle(
                       color: AppColors.primaryWhite,
                       fontSize: 16,

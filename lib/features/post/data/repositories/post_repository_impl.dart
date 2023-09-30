@@ -11,9 +11,24 @@ class PostRepositoryImpl implements PostRepository {
   Future<List<PostModel>> getPosts() async {
     try {
       final result = await postApiProvider.getPosts();
-      return result as List<PostModel>;
+      if (result.isNotEmpty) {
+        return result as List<PostModel>;
+      } else {
+        return [];
+      }
     } on Exception catch (e) {
       return Future.error(e);
+    }
+  }
+
+  @override
+  Future<bool> createPost(PostModel post) async {
+    final result = await postApiProvider.createPost(post);
+
+    if (result) {
+      return true;
+    } else {
+      return Future.error('error creating post');
     }
   }
 }

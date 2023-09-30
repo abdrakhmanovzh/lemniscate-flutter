@@ -6,7 +6,7 @@ part 'post_model.g.dart';
 @JsonSerializable()
 @CopyWith()
 class PostModel {
-  final String id;
+  final String? id;
   final String text;
   final String image;
   @JsonKey(name: "user_id")

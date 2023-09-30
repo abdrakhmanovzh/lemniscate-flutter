@@ -15,39 +15,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: AppColors.primaryGray,
         ),
       ),
+      centerTitle: true,
       leadingWidth: 72,
       leading: GestureDetector(
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(10),
           child: SvgPicture.asset(
             AppAssets.logo,
             color: AppColors.primaryWhite,
           ),
         ),
       ),
-      actions: [
-        GestureDetector(
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                AppAssets.login,
-                height: 16,
-                color: AppColors.primaryWhite,
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'sign in',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(width: 8),
-            ],
-          ),
-        )
-      ],
+      title: const Text(
+        'lemniscate',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 

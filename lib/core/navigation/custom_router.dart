@@ -4,6 +4,8 @@ import 'package:lemniscate_flutter/core/globals/keys.dart';
 import 'package:lemniscate_flutter/core/navigation/cubit/navigation_cubit.dart';
 import 'package:lemniscate_flutter/core/navigation/routes.dart';
 import 'package:lemniscate_flutter/core/widgets/error_page.dart';
+import 'package:lemniscate_flutter/features/auth/presentation/ui/login_page.dart';
+import 'package:lemniscate_flutter/features/auth/presentation/ui/register_page.dart';
 import 'package:lemniscate_flutter/features/following/ui/pages/following_page.dart';
 import 'package:lemniscate_flutter/features/home/ui/pages/home_page.dart';
 import 'package:lemniscate_flutter/features/liked/ui/pages/liked_page.dart';
@@ -46,6 +48,17 @@ class CustomRouter {
             path: Routes.profile,
             pageBuilder: (context, state) => const NoTransitionPage(
               child: ProfilePage(),
+            ),
+          ),
+          GoRoute(
+              path: Routes.login,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                    child: LoginPage(),
+                  )),
+          GoRoute(
+            path: Routes.register,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: RegisterPage(),
             ),
           ),
         ],

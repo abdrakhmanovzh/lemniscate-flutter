@@ -11,7 +11,11 @@ class UserRepositoryImpl implements UserRepository {
   Future<List<UserModel>> getUsers() async {
     try {
       final result = await userApiProvider.getUsers();
-      return result as List<UserModel>;
+      if (result.isNotEmpty) {
+        return result as List<UserModel>;
+      } else {
+        return [];
+      }
     } on Exception catch (e) {
       return Future.error(e);
     }

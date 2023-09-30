@@ -5,6 +5,8 @@ import 'package:lemniscate_flutter/core/navigation/cubit/navigation_cubit.dart';
 import 'package:lemniscate_flutter/core/navigation/routes.dart';
 import 'package:lemniscate_flutter/core/utils/app_colors.dart';
 import 'package:lemniscate_flutter/core/widgets/named_navbar_item.dart';
+import 'package:lemniscate_flutter/features/auth/data/injections/auth_repository_di.dart';
+import 'package:lemniscate_flutter/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lemniscate_flutter/features/post/data/injections/post_repository_di.dart';
 import 'package:lemniscate_flutter/features/post/presentation/cubit/post_cubit.dart';
 import 'package:lemniscate_flutter/features/user/data/injections/user_repository_di.dart';
@@ -61,6 +63,9 @@ class MainScreen extends StatelessWidget {
           BlocProvider<UserCubit>(
             create: (context) => UserCubitImpl(repository: UserRepositoryInject.userRepository()!),
           ),
+          BlocProvider<AuthCubit>(
+            create: (context) => AuthCubitImpl(authRepository: AuthRepositoryInject.authRepository()!),
+          )
         ],
         child: screen,
       ),
