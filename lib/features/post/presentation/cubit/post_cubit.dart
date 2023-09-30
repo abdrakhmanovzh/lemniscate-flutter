@@ -58,9 +58,7 @@ class PostCubitImpl extends PostCubit {
   @override
   Future<void> likePost(String postId, String userId) async {
     try {
-      final state = getPostLoadedState();
       await repository.likePost(postId, userId);
-      emit(state.copyWith(posts: posts));
     } catch (e) {
       emit(PostError(message: e.toString()));
     }

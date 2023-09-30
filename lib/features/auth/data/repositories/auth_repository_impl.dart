@@ -1,6 +1,5 @@
 import 'package:lemniscate_flutter/features/auth/data/providers/auth_provider.dart';
 import 'package:lemniscate_flutter/features/auth/domain/repositories/auth_repository.dart';
-import 'package:lemniscate_flutter/features/user/domain/entities/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
