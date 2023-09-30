@@ -65,6 +65,7 @@ class _PostCreateWidgetState extends State<PostCreateWidget> {
                           backgroundImage: NetworkImage(
                             GetUserAvatar.getAvatar(currentUser!.email ?? ''),
                           ),
+                          backgroundColor: AppColors.neutralGray,
                         ),
                         const SizedBox(
                           width: 10,

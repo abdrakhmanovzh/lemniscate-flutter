@@ -47,6 +47,7 @@ class _PostCardWidgetState extends State<PostCardWidget> {
               CircleAvatar(
                 radius: 16,
                 backgroundImage: NetworkImage(GetUserAvatar.getAvatar(widget.author.name)),
+                backgroundColor: AppColors.neutralGray,
               ),
               const SizedBox(
                 width: 12,
