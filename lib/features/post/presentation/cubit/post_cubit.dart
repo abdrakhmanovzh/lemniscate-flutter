@@ -11,6 +11,7 @@ abstract class PostCubit extends Cubit<PostState> {
   Future<void> getPosts();
   Future<void> createPost(PostModel post);
   Future<void> likePost(String postId, String userId);
+  Future<void> getLikedPosts(String userId);
 }
 
 class PostCubitImpl extends PostCubit {
@@ -57,9 +58,20 @@ class PostCubitImpl extends PostCubit {
   @override
   Future<void> likePost(String postId, String userId) async {
     try {
-      await repository.likePost(postId, userId);
       final state = getPostLoadedState();
-      posts = await repository.getPosts();
+      await repository.likePost(postId, userId);
+      emit(state.copyWith(posts: posts));
+    } catch (e) {
+      emit(PostError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> getLikedPosts(String userId) async {
+    try {
+      emit(PostLoading());
+      posts = await repository.getLikedPosts(userId);
+      final state = getPostLoadedState();
       emit(
         state.copyWith(posts: posts),
       );

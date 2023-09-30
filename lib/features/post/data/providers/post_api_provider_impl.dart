@@ -48,4 +48,16 @@ class PostApiProviderImpl implements PostApiProvider {
       return false;
     }
   }
+
+  @override
+  Future<List<dynamic>> getLikedPosts(String userId) async {
+    try {
+      final response = await Supabase.instance.client.from('posts').select().order('created_at') as List<dynamic>?;
+      final posts = response?.map((e) => PostModel.fromJson(e as Map<String, dynamic>)).toList() ?? [];
+      final likedPosts = posts.where((element) => element.likes.contains(userId)).toList();
+      return likedPosts;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

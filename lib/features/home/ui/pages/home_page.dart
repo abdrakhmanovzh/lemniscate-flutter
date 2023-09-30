@@ -25,12 +25,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: AppColors.primaryBlack,
       appBar: const CustomAppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: ListView(
-          physics: const BouncingScrollPhysics(),
           children: [
             const PostCreateWidget(),
             const SizedBox(
@@ -46,15 +46,18 @@ class _HomePageState extends State<HomePage> {
                       if (userState is UserLoaded) {
                         final users = userState.users;
                         return posts.isNotEmpty
-                            ? Wrap(
-                                runSpacing: 20,
-                                children: [
-                                  for (final post in posts)
-                                    PostCardWidget(
-                                      post: post,
-                                      author: users.firstWhere((user) => user.id == post.userId),
-                                    ),
-                                ],
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Wrap(
+                                  runSpacing: 20,
+                                  children: [
+                                    for (final post in posts)
+                                      PostCardWidget(
+                                        post: post,
+                                        author: users.firstWhere((user) => user.id == post.userId),
+                                      ),
+                                  ],
+                                ),
                               )
                             : Container(
                                 constraints: BoxConstraints(
@@ -116,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   );
-                } else if (state is PostCreated || state is PostLiked) {
+                } else if (state is PostCreated) {
                   BlocProvider.of<PostCubit>(context).getPosts();
                   return Container();
                 } else {

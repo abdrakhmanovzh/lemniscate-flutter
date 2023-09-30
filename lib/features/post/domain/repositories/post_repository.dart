@@ -4,6 +4,6 @@ abstract class PostRepository {
   Future<List<PostModel>> getPosts();
   Future<bool> createPost(PostModel post);
   Future<bool> likePost(String postId, String userId);
-  // Future<PostModel> updatePost(PostModel post);
+  Future<List<PostModel>> getLikedPosts(String userId);
   // Future<void> deletePost(int id);
 }

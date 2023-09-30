@@ -4,4 +4,5 @@ abstract class PostApiProvider {
   Future<List<dynamic>> getPosts();
   Future<bool> createPost(PostModel post);
   Future<bool> likePost(String postId, String userId);
+  Future<List<dynamic>> getLikedPosts(String userId);
 }

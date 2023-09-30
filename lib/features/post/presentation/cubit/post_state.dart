@@ -26,8 +26,6 @@ class PostLoaded extends PostState {
 
 class PostCreated extends PostState {}
 
-class PostLiked extends PostState {}
-
 class PostError extends PostState {
   final String message;
 

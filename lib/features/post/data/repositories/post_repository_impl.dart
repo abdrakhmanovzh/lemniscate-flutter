@@ -42,4 +42,18 @@ class PostRepositoryImpl implements PostRepository {
       return Future.error('error liking post');
     }
   }
+
+  @override
+  Future<List<PostModel>> getLikedPosts(String userId) async {
+    try {
+      final result = await postApiProvider.getLikedPosts(userId);
+      if (result.isNotEmpty) {
+        return result as List<PostModel>;
+      } else {
+        return [];
+      }
+    } on Exception catch (e) {
+      return Future.error(e);
+    }
+  }
 }

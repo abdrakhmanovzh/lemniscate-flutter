@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lemniscate_flutter/core/globals/custom_scroll_config.dart';
 import 'package:lemniscate_flutter/core/navigation/custom_router.dart';
 
 class App extends StatelessWidget {
@@ -14,6 +15,12 @@ class App extends StatelessWidget {
         highlightColor: Colors.transparent,
       ),
       routerConfig: CustomRouter.router,
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: CustomScrollConfig(),
+          child: child!,
+        );
+      },
     );
   }
 }

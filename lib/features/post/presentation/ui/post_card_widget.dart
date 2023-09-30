@@ -9,10 +9,23 @@ import 'package:lemniscate_flutter/features/post/presentation/utils/get_post_ima
 import 'package:lemniscate_flutter/features/user/domain/entities/user_model.dart';
 import 'package:lemniscate_flutter/features/user/presentation/utils/get_user_avatar.dart';
 
-class PostCardWidget extends StatelessWidget {
+class PostCardWidget extends StatefulWidget {
   final PostModel post;
   final UserModel author;
   const PostCardWidget({super.key, required this.post, required this.author});
+
+  @override
+  State<PostCardWidget> createState() => _PostCardWidgetState();
+}
+
+class _PostCardWidgetState extends State<PostCardWidget> {
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    isLiked = widget.post.likes.contains(widget.author.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +46,16 @@ class PostCardWidget extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 16,
-                backgroundImage: NetworkImage(GetUserAvatar.getAvatar(author.name)),
+                backgroundImage: NetworkImage(GetUserAvatar.getAvatar(widget.author.name)),
               ),
               const SizedBox(
-                width: 8,
+                width: 12,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    GetFormattedName.getFormattedName(author.name),
+                    GetFormattedName.getFormattedName(widget.author.name),
                     style: const TextStyle(
                       color: AppColors.primaryWhite,
                       fontSize: 16,
@@ -50,7 +63,7 @@ class PostCardWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    GetFormattedDate.getFormattedDate(post.createdAt),
+                    GetFormattedDate.getFormattedDate(widget.post.createdAt),
                     style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.neutralGray,
@@ -59,11 +72,15 @@ class PostCardWidget extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              GestureDetector(
+              InkWell(
                 onTap: () {
-                  BlocProvider.of<PostCubit>(context).likePost(post.id!, author.id);
+                  setState(() {
+                    isLiked = !isLiked;
+                  });
+                  BlocProvider.of<PostCubit>(context).likePost(widget.post.id!, widget.author.id);
                 },
-                child: post.likes.contains(author.id)
+                splashColor: AppColors.neutralGray,
+                child: isLiked
                     ? const Icon(
                         Icons.favorite,
                         size: 20,
@@ -78,14 +95,17 @@ class PostCardWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 6,
+            height: 10,
           ),
           Text(
-            post.text,
-            style: const TextStyle(color: AppColors.primaryWhite),
+            widget.post.text,
+            style: const TextStyle(
+              color: AppColors.primaryWhite,
+              fontSize: 16,
+            ),
           ),
           const SizedBox(
-            height: 6,
+            height: 10,
           ),
           Container(
             decoration: BoxDecoration(
@@ -94,7 +114,7 @@ class PostCardWidget extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                GetPostImage.getPostImage(post.image),
+                GetPostImage.getPostImage(widget.post.image),
                 fit: BoxFit.cover,
               ),
             ),
