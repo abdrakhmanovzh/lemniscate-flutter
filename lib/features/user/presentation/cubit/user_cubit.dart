@@ -9,6 +9,7 @@ abstract class UserCubit extends Cubit<UserState> {
   UserCubit(super.state);
 
   Future<void> getUsers();
+  Future<void> getUser(String userId);
 }
 
 class UserCubitImpl extends UserCubit {
@@ -22,6 +23,17 @@ class UserCubitImpl extends UserCubit {
       emit(UserLoading());
       final users = await repository.getUsers();
       emit(UserLoaded(users: users));
+    } catch (e) {
+      emit(UserError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> getUser(String userId) async {
+    try {
+      emit(UserLoading());
+      final user = await repository.getUser(userId);
+      emit(UserLoaded(users: [user]));
     } catch (e) {
       emit(UserError(message: e.toString()));
     }

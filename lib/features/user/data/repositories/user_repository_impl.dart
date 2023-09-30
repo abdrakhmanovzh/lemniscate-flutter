@@ -20,4 +20,14 @@ class UserRepositoryImpl implements UserRepository {
       return Future.error(e);
     }
   }
+
+  @override
+  Future<UserModel> getUser(String userId) async {
+    try {
+      final result = await userApiProvider.getUser(userId);
+      return result;
+    } on Exception catch (e) {
+      return Future.error(e);
+    }
+  }
 }

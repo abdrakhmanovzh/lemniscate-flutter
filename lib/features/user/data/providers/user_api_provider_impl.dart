@@ -16,4 +16,18 @@ class UserApiProviderImpl implements UserApiProvider {
       throw Exception(e);
     }
   }
+
+  @override
+  Future<UserModel> getUser(String userId) async {
+    try {
+      final response = await Supabase.instance.client.from('users').select().eq('id', userId).single() as Map<String, dynamic>?;
+      if (response != null) {
+        return UserModel.fromJson(response);
+      } else {
+        throw Exception('user not found');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

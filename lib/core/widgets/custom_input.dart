@@ -7,6 +7,8 @@ class CustomInput extends StatefulWidget {
   final bool? isObscured;
   final String hintText;
   final Widget? suffix;
+  final Color? backgroundColor;
+  final bool disabled;
 
   const CustomInput({
     super.key,
@@ -15,6 +17,8 @@ class CustomInput extends StatefulWidget {
     this.isObscured,
     required this.hintText,
     this.suffix,
+    this.backgroundColor,
+    this.disabled = false,
   });
 
   @override
@@ -32,8 +36,11 @@ class _CustomInputState extends State<CustomInput> {
         color: AppColors.primaryWhite,
         fontSize: 14,
       ),
+      enabled: !widget.disabled,
       cursorColor: AppColors.neutralGray,
       decoration: InputDecoration(
+        fillColor: widget.backgroundColor,
+        filled: true,
         contentPadding: const EdgeInsets.only(left: 10),
         hintText: widget.hintText,
         hintStyle: const TextStyle(

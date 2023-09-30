@@ -43,7 +43,7 @@ class MainScreen extends StatelessWidget {
       label: 'following',
     ),
     NamedNavbarItem(
-      initialLocation: Routes.profile,
+      initialLocation: Routes.myProfile,
       icon: const Icon(
         Icons.person_outline,
         size: 22,
@@ -55,6 +55,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: MultiBlocProvider(
         providers: [
           BlocProvider<PostCubit>(
