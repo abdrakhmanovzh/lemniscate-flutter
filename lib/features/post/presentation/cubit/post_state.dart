@@ -16,11 +16,17 @@ class PostLoaded extends PostState {
 
   const PostLoaded({required this.posts});
 
+  PostLoaded copyWith({List<PostModel>? posts}) {
+    return PostLoaded(posts: posts ?? this.posts);
+  }
+
   @override
   List<Object?> get props => [posts];
 }
 
 class PostCreated extends PostState {}
+
+class PostLiked extends PostState {}
 
 class PostError extends PostState {
   final String message;

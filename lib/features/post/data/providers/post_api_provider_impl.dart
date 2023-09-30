@@ -8,7 +8,7 @@ class PostApiProviderImpl implements PostApiProvider {
   @override
   Future<List<dynamic>> getPosts() async {
     try {
-      final response = await Supabase.instance.client.from('posts').select() as List<dynamic>?;
+      final response = await Supabase.instance.client.from('posts').select().order('created_at') as List<dynamic>?;
       if (response?.isNotEmpty ?? false) {
         return response?.map((e) => PostModel.fromJson(e as Map<String, dynamic>)).toList() ?? [];
       } else {
@@ -24,6 +24,25 @@ class PostApiProviderImpl implements PostApiProvider {
     try {
       await Supabase.instance.client.storage.from('images').upload(post.image, File(post.image));
       await Supabase.instance.client.from('posts').insert(post.toJson());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> likePost(String postId, String userId) async {
+    try {
+      final response = await Supabase.instance.client.from('posts').select().eq('id', postId);
+      final post = PostModel.fromJson(response[0]);
+      final likes = post.likes;
+      if (likes.contains(userId)) {
+        likes.remove(userId);
+      } else {
+        likes.add(userId);
+      }
+
+      await Supabase.instance.client.from('posts').update(post.toJson()).eq('id', postId);
       return true;
     } catch (e) {
       return false;

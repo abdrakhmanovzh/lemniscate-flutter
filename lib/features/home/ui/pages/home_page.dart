@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   );
-                } else if (state is PostCreated) {
+                } else if (state is PostCreated || state is PostLiked) {
                   BlocProvider.of<PostCubit>(context).getPosts();
                   return Container();
                 } else {

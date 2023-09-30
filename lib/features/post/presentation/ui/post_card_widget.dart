@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lemniscate_flutter/core/utils/app_colors.dart';
 import 'package:lemniscate_flutter/features/post/domain/entities/post_model.dart';
+import 'package:lemniscate_flutter/features/post/presentation/cubit/post_cubit.dart';
 import 'package:lemniscate_flutter/features/post/presentation/utils/get_formatted_date.dart';
 import 'package:lemniscate_flutter/features/post/presentation/utils/get_formatted_name.dart';
 import 'package:lemniscate_flutter/features/post/presentation/utils/get_post_image.dart';
@@ -58,7 +60,10 @@ class PostCardWidget extends StatelessWidget {
               ),
               const Spacer(),
               GestureDetector(
-                child: post.likes.contains(author.name)
+                onTap: () {
+                  BlocProvider.of<PostCubit>(context).likePost(post.id!, author.id);
+                },
+                child: post.likes.contains(author.id)
                     ? const Icon(
                         Icons.favorite,
                         size: 20,

@@ -10,19 +10,34 @@ abstract class PostCubit extends Cubit<PostState> {
 
   Future<void> getPosts();
   Future<void> createPost(PostModel post);
+  Future<void> likePost(String postId, String userId);
 }
 
 class PostCubitImpl extends PostCubit {
   final PostRepository repository;
 
+  List<PostModel> posts = [];
+
   PostCubitImpl({required this.repository}) : super(PostInitial());
+
+  PostLoaded getPostLoadedState() {
+    if (state is PostLoaded) {
+      return state as PostLoaded;
+    }
+
+    return PostLoaded(posts: posts);
+  }
 
   @override
   Future<void> getPosts() async {
     try {
       emit(PostLoading());
-      final posts = await repository.getPosts();
-      emit(PostLoaded(posts: posts));
+      posts = await repository.getPosts();
+      final state = getPostLoadedState();
+
+      emit(
+        state.copyWith(posts: posts),
+      );
     } catch (e) {
       emit(PostError(message: e.toString()));
     }
@@ -34,6 +49,20 @@ class PostCubitImpl extends PostCubit {
       emit(PostLoading());
       await repository.createPost(post);
       emit(PostCreated());
+    } catch (e) {
+      emit(PostError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> likePost(String postId, String userId) async {
+    try {
+      await repository.likePost(postId, userId);
+      final state = getPostLoadedState();
+      posts = await repository.getPosts();
+      emit(
+        state.copyWith(posts: posts),
+      );
     } catch (e) {
       emit(PostError(message: e.toString()));
     }
