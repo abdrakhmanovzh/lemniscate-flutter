@@ -4,7 +4,8 @@ import 'package:lemniscate_flutter/core/utils/app_assets.dart';
 import 'package:lemniscate_flutter/core/utils/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+  final String? title;
+  const CustomAppBar({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +27,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      title: const Text(
-        'lemniscate',
-        style: TextStyle(
+      title: Text(
+        title ?? 'lemniscate',
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.w500,

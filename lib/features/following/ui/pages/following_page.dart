@@ -27,7 +27,9 @@ class _FollowingPageState extends State<FollowingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBlack,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(
+        title: 'following',
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: BlocBuilder<AuthCubit, AuthState>(

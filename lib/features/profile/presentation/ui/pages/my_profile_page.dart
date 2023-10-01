@@ -25,7 +25,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBlack,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(
+        title: 'my profile',
+      ),
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, authState) {
           if (authState is LoginLoadedState) {

@@ -27,7 +27,9 @@ class _LikedPageState extends State<LikedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBlack,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(
+        title: 'liked',
+      ),
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, authState) {
           if (authState is LoginLoadedState) {

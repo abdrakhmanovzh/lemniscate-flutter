@@ -38,7 +38,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBlack,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(
+        title: 'register',
+      ),
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) => Center(
           child: Container(

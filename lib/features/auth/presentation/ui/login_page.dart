@@ -31,7 +31,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBlack,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(
+        title: 'login',
+      ),
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           if (state is LoginLoadedState) {
