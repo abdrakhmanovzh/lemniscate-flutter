@@ -10,62 +10,55 @@ abstract class AuthCubit extends Cubit<AuthState> {
 
   Future<void> login(String email, String password);
 
-  Future<void> register(String email, String password);
+  Future<void> register(String email, String password, String avatar);
 
-  Future<void> getSession();
+  User getUser();
 
-  Future<void> logout();
+  Future logout();
 }
 
 class AuthCubitImpl extends AuthCubit {
   final AuthRepository authRepository;
 
-  AuthCubitImpl({required this.authRepository}) : super(AuthInitial());
+  AuthCubitImpl({required this.authRepository}) : super(LoginInitialState());
 
   @override
   Future<void> login(String email, String password) async {
-    emit(AuthLoading());
+    emit(LoginLoadingState());
     try {
-      await authRepository.login(email, password);
-      emit(const AuthSuccess());
+      final response = await authRepository.login(email, password);
+      emit(
+        LoginLoadedState(authResponse: response),
+      );
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(LoginErrorState(message: e.toString()));
     }
   }
 
   @override
-  Future<void> register(String email, String password) async {
-    emit(AuthLoading());
+  Future<void> register(String email, String password, String avatar) async {
+    emit(RegisterLoadingState());
     try {
-      await authRepository.register(email, password);
-      await authRepository.login(email, password);
-      emit(const AuthSuccess());
+      await authRepository.register(email, password, avatar);
+      final response = await authRepository.login(email, password);
+      emit(
+        LoginLoadedState(
+          authResponse: response,
+        ),
+      );
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(RegisterErrorState(message: e.toString()));
     }
   }
 
   @override
-  Future<void> getSession() async {
-    emit(AuthLoading());
-    try {
-      final user = await authRepository.getSession();
-      emit(AuthSuccess(
-        user: user,
-      ));
-    } catch (e) {
-      emit(AuthError(message: e.toString()));
-    }
+  User getUser() {
+    return authRepository.getUser() as User;
   }
 
   @override
-  Future<void> logout() async {
-    emit(AuthLoading());
-    try {
-      await authRepository.logout();
-      emit(const AuthSuccess());
-    } catch (e) {
-      emit(AuthError(message: e.toString()));
-    }
+  Future logout() async {
+    await authRepository.logout();
+    emit(LogoutState());
   }
 }

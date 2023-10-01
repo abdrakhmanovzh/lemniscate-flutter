@@ -21,11 +21,6 @@ class _LoginPageState extends State<LoginPage> {
   bool passwordObscured = true;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -39,10 +34,18 @@ class _LoginPageState extends State<LoginPage> {
       appBar: const CustomAppBar(),
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
-          if (state is AuthSuccess) {
+          if (state is LoginLoadedState) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.go(Routes.home);
             });
+          }
+
+          if (state is LoginLoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primaryGray,
+              ),
+            );
           }
 
           return Center(
@@ -118,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             child: Center(
                               child: Text(
-                                state is AuthLoading ? 'loading' : 'login',
+                                state is LoginLoadingState ? 'loading' : 'login',
                                 style: const TextStyle(
                                   color: AppColors.primaryWhite,
                                   fontSize: 16,
@@ -130,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        state is AuthError
+                        state is LoginErrorState
                             ? Text(
                                 state.message,
                                 style: const TextStyle(color: AppColors.primaryRed),

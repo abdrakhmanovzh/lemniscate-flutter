@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lemniscate_flutter/core/utils/app_colors.dart';
+import 'package:lemniscate_flutter/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lemniscate_flutter/features/post/domain/entities/post_model.dart';
 import 'package:lemniscate_flutter/features/post/presentation/cubit/post_cubit.dart';
 import 'package:lemniscate_flutter/features/post/presentation/utils/get_formatted_date.dart';
@@ -8,6 +10,7 @@ import 'package:lemniscate_flutter/features/post/presentation/utils/get_formatte
 import 'package:lemniscate_flutter/features/post/presentation/utils/get_post_image.dart';
 import 'package:lemniscate_flutter/features/user/domain/entities/user_model.dart';
 import 'package:lemniscate_flutter/features/user/presentation/utils/get_user_avatar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PostCardWidget extends StatefulWidget {
   final PostModel post;
@@ -20,10 +23,12 @@ class PostCardWidget extends StatefulWidget {
 
 class _PostCardWidgetState extends State<PostCardWidget> {
   bool isLiked = false;
+  User? currentUser;
 
   @override
   void initState() {
-    isLiked = widget.post.likes.contains(widget.author.id);
+    currentUser = BlocProvider.of<AuthCubit>(context).getUser();
+    isLiked = widget.post.likes.contains(currentUser!.id);
     super.initState();
   }
 
@@ -55,12 +60,19 @@ class _PostCardWidgetState extends State<PostCardWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    GetFormattedName.getFormattedName(widget.author.name),
-                    style: const TextStyle(
-                      color: AppColors.primaryWhite,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                  GestureDetector(
+                    onTap: () {
+                      context.go(
+                        '/profile/${widget.author.id}',
+                      );
+                    },
+                    child: Text(
+                      GetFormattedName.getFormattedName(widget.author.name),
+                      style: const TextStyle(
+                        color: AppColors.primaryWhite,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   Text(
@@ -78,7 +90,7 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                   setState(() {
                     isLiked = !isLiked;
                   });
-                  BlocProvider.of<PostCubit>(context).likePost(widget.post.id!, widget.author.id);
+                  BlocProvider.of<PostCubit>(context).likePost(widget.post.id!, currentUser!.id);
                 },
                 splashColor: AppColors.neutralGray,
                 child: isLiked

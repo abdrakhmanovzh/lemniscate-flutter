@@ -30,8 +30,9 @@ class _LikedPageState extends State<LikedPage> {
       appBar: const CustomAppBar(),
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, authState) {
-          if (authState is AuthSuccess) {
-            BlocProvider.of<PostCubit>(context).getLikedPosts(authState.user!.id);
+          if (authState is LoginLoadedState) {
+            final currentUser = BlocProvider.of<AuthCubit>(context).getUser();
+            BlocProvider.of<PostCubit>(context).getLikedPosts(currentUser.id);
             return Padding(
               padding: const EdgeInsets.all(20),
               child: ListView(

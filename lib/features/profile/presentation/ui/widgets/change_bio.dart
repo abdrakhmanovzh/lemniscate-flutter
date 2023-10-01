@@ -6,7 +6,7 @@ import 'package:lemniscate_flutter/features/profile/presentation/cubit/profile_c
 
 class ChangeBio extends StatefulWidget {
   final String userId;
-  final Function(String) onBioChanged;
+  final Function() onBioChanged;
   const ChangeBio({super.key, required this.userId, required this.onBioChanged});
 
   @override
@@ -29,14 +29,14 @@ class _ChangeBioState extends State<ChangeBio> {
                   'change bio',
                   style: TextStyle(
                     color: AppColors.primaryWhite,
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    widget.onBioChanged(_bioController.text);
                     BlocProvider.of<ProfileCubit>(context).updateBio(_bioController.text, widget.userId);
+                    widget.onBioChanged();
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lemniscate_flutter/core/navigation/routes.dart';
 import 'package:lemniscate_flutter/core/utils/app_colors.dart';
 import 'package:lemniscate_flutter/core/widgets/custom_app_bar.dart';
@@ -19,6 +22,17 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool passwordObscured = true;
+  final picker = ImagePicker();
+  File? _postImage;
+
+  Future<void> chooseImage() async {
+    final image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _postImage = File(image.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +102,38 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          BlocProvider.of<AuthCubit>(context).register(_emailController.text, _passwordController.text);
+                          chooseImage();
+                        },
+                        child: Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            color: AppColors.secondaryBlack,
+                            border: Border.all(
+                              color: AppColors.primaryGray,
+                            ),
+                            borderRadius: BorderRadius.circular(1000),
+                          ),
+                          child: _postImage == null
+                              ? const Center(
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: AppColors.primaryGray,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  backgroundImage: FileImage(
+                                    _postImage!,
+                                  ),
+                                ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          BlocProvider.of<AuthCubit>(context).register(_emailController.text, _passwordController.text, _postImage!.path);
                         },
                         child: Container(
                           width: double.maxFinite,
@@ -99,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           child: Center(
                             child: Text(
-                              state is AuthLoading ? 'loading' : 'register',
+                              state is RegisterLoadingState ? 'loading' : 'register',
                               style: const TextStyle(
                                 color: AppColors.primaryWhite,
                                 fontSize: 16,
@@ -111,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      state is AuthError
+                      state is RegisterErrorState
                           ? Text(
                               state.message,
                               style: const TextStyle(color: AppColors.primaryRed),

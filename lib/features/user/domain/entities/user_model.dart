@@ -9,18 +9,16 @@ class UserModel {
   final String id;
   final String name;
   final String bio;
-  final List<String>? following;
 
   UserModel({
     required this.id,
     required this.name,
     required this.bio,
-    required this.following,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
-  List<Object?> get props => [id, name, bio, following];
+  List<Object?> get props => [id, name, bio];
 }

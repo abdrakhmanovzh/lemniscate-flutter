@@ -1,11 +1,11 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthProvider {
-  Future<void> login(String email, String password);
+  Future<AuthResponse> login(String email, String password);
 
-  Future<void> register(String email, String password);
+  Future<AuthResponse> register(String email, String password, String avatar);
 
-  Future<User> getSession();
+  getUser();
 
   Future<void> logout();
 }

@@ -13,6 +13,15 @@ class ProfileLoading extends ProfileState {}
 
 class ProfileSuccess extends ProfileState {}
 
+class ProfileFollowers extends ProfileState {
+  final List<String> followers;
+
+  const ProfileFollowers({required this.followers});
+
+  @override
+  List<Object> get props => [followers];
+}
+
 class ProfileError extends ProfileState {
   final String message;
 

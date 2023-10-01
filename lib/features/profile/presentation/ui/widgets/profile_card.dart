@@ -4,10 +4,24 @@ import 'package:lemniscate_flutter/features/post/presentation/utils/get_formatte
 import 'package:lemniscate_flutter/features/user/domain/entities/user_model.dart';
 import 'package:lemniscate_flutter/features/user/presentation/utils/get_user_avatar.dart';
 
-class ProfileCard extends StatelessWidget {
+class ProfileCard extends StatefulWidget {
   final UserModel user;
-  final String bio;
-  const ProfileCard({super.key, required this.user, required this.bio});
+  const ProfileCard({super.key, required this.user});
+
+  @override
+  State<ProfileCard> createState() => _ProfileCardState();
+}
+
+class _ProfileCardState extends State<ProfileCard> {
+  String bio = '';
+  String avatar = '';
+
+  @override
+  void initState() {
+    bio = widget.user.bio;
+    avatar = widget.user.name;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +59,14 @@ class ProfileCard extends StatelessWidget {
             right: null,
             child: CircleAvatar(
               radius: 60,
-              backgroundImage: NetworkImage(GetUserAvatar.getAvatar(user.name)),
+              backgroundImage: NetworkImage(GetUserAvatar.getAvatar(avatar)),
+              backgroundColor: AppColors.primaryGray,
             ),
           ),
           Positioned(
             top: 150,
             child: Text(
-              GetFormattedName.getFormattedName(user.name),
+              GetFormattedName.getFormattedName(widget.user.name),
               style: const TextStyle(
                 color: AppColors.primaryWhite,
                 fontSize: 22,

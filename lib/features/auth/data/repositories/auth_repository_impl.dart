@@ -8,19 +8,18 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.authProvider});
 
   @override
-  Future<void> login(String email, String password) async {
-    await authProvider.login(email, password);
+  Future<AuthResponse> login(String email, String password) async {
+    return await authProvider.login(email, password);
   }
 
   @override
-  Future<void> register(String email, String password) async {
-    await authProvider.register(email, password);
+  Future<AuthResponse> register(String email, String password, String avatar) async {
+    return await authProvider.register(email, password, avatar);
   }
 
   @override
-  Future<User> getSession() async {
-    final user = await authProvider.getSession();
-    return user;
+  getUser() {
+    return authProvider.getUser();
   }
 
   @override

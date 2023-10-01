@@ -15,4 +15,44 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return false;
     }
   }
+
+  @override
+  Future<bool> updateAvatar(String avatar, String userName) async {
+    try {
+      final result = await profileProvider.updateAvatar(avatar, userName);
+      return result;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> followUser(String from, String to) async {
+    try {
+      final result = await profileProvider.followUser(from, to);
+      return result;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> unfollowUser(String from, String to) async {
+    try {
+      final result = await profileProvider.unfollowUser(from, to);
+      return result;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<List<String>> getFollowers(String from) async {
+    try {
+      final result = await profileProvider.getFollowers(from);
+      return result;
+    } catch (e) {
+      return [];
+    }
+  }
 }
