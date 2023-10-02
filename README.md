@@ -1,16 +1,7 @@
 # lemniscate_flutter
 
-A new Flutter project.
+Simple social media project written with Flutter with Supabase. 
 
-## Getting Started
+This project utilizes Clean Architecture with Bloc pattern.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![photo_2023-10-02_14-31-39](https://github.com/abdrakhmanovzh/lemniscate-flutter/assets/74825928/77377441-b7c6-41b2-8b74-8e76aeaf5c36)
